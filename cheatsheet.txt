@@ -1,0 +1,2 @@
+python -m flask --app .\Ucenie.py run
+python -m flask --app .\Ucenie.py run --host=0.0.0.0
