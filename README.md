@@ -1,6 +1,6 @@
 # Socka
-##My SOC work
-*Python 
-*Flask 
-*Chess 
-*Webpage
+## My SOC work
+- Python 
+- Flask 
+- Chess 
+- Webpage
