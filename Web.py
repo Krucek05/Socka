@@ -7,6 +7,7 @@ from markupsafe import escape
 from flask import url_for
 from flask import request
 
+
 app = Flask(__name__)
 
 @app.route('/projects/')
@@ -38,6 +39,11 @@ def profile(username):
 with app.test_request_context():
     print(url_for('index'))
     print(url_for('profile', username='Kristian Rucek'))
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('page_not_found.html'), 404
 
 #@app.route('/login', methods=['GET', 'POST'])
 #def login():
