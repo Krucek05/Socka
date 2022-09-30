@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, Markup
 import chess
 import chess.svg
@@ -7,7 +8,6 @@ from flask import url_for
 from flask import request
 
 app = Flask(__name__)
-
 
 @app.route('/projects/')
 def projects():
@@ -39,17 +39,19 @@ with app.test_request_context():
     print(url_for('index'))
     print(url_for('profile', username='Kristian Rucek'))
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        return do_the_login()
-    else:
-        return show_the_login_form()
+#@app.route('/login', methods=['GET', 'POST'])
+#def login():
+    #if request.method == 'POST':
+   #     return do_the_login()
+  #  else:
+ #       return show_the_login_form()
+#
+#url_for('static', filename='style.css')#
 
 
 @app.route("/<name>")
 def hello(name):
-    return f"Hello, {escape(name)}!"
+    return f" {escape(name)}!"
 
  
 if __name__ == '__main__':
