@@ -10,7 +10,7 @@ def login():
 
 @app.route("/user/<username>")
 def profile(username):
-    return f'{username}\"s profile"
+    return "{username}\"s profile"
 
 with app.test_request_context():
     print(url_for("index"))
