@@ -11,19 +11,30 @@
 
 <body class="merida zeit">
     <script>
-        const pgnStringArray= ["pgnString1", "pgnString2", "pgnString3 "];
-        for (let x in pgnStringArray)
-        var pgnString1 = "{{ Mypgn1 }}";
-        var pgnString2 = "{{ Mypgn2 }}";
+        // const pgnStringArray= ["pgnString1", "pgnString2", "pgnString3 ",];
+        const pgnStringArray= [
+        {% for element in pyStringArray %}
+            "{{element}}",
+        {% endfor %}
+        ];
     </script>
+    
+        {% for element in pyStringArray %}
+            <button onclick="loadPgn(pgnStringArray[{{ loop.index - 1 }}])">text</button>
+        {% endfor %}
 
     <div id="board" style="width: 400px"></div>
-v    <button onclick="loadPgn(pgnString1)">Load a game 1</button>
+    
+    
+    <!--
     <button onclick="loadPgn(pgnString2)">Load a game 2</button>
     <button onclick="loadPgn(pgnString3)">Load a game 3</button>
-    <a href="javascript:loadPgn(pgnString3)">Load a game 3</a>
-    <a href="javascript:loadPgn(pgnString2)">Load a game 2</a>
     <a href="javascript:loadPgn(pgnString1)">Load a game 1</a>
+    <a href="javascript:loadPgn(pgnString2)">Load a game 2</a>
+    <a href="javascript:loadPgn(pgnString3)">Load a game 3</a>
+    -->
+   
+    
     <script>
         function loadPgn(pgnString)
         {
@@ -32,5 +43,4 @@ v    <button onclick="loadPgn(pgnString1)">Load a game 1</button>
     </script>
     
 </body>
-
 </html>
