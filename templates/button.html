@@ -8,13 +8,33 @@
         <title>Document</title>
     </head>
     <body>
-        <h2>Try this button<h2/>
+        
 
-            <form method="post" action="/">
-                <input  type="text" value="1" name="mojInput"/>
-                <input  type="submit" value="See text" name="button"/>
-              
-            </form>
+    <form method="post" action="/">
+        <fieldset>
+            <legend>Your Rating:</legend>
+                <label for="fname">First Player:</label><br>
+                <input  type="text" id="myText" value="{{Ra}}" name="Ra"/>
+                <br>
+
+                <label for="sname">Second Player:</label><br>
+                <input  type="text" id="myText1" value="{{Rb}}" name="Rb"/>
+                <br>
+
+                <label for="kfactor">K- factor:</label><br>
+                <input  type="text"id="myText2" value="{{K}}" name="K"/>
+                <br> 
+                <input type="submit" value="Submit">
+        </fieldset>
+
+    </form>
+    
+   {% if ResultElo1 >= 0 %}
+        <p> Win: +{{Delta1}}, {{ResultElo1}}</p>
+        <p> Lose: {{Delta2}}, {{ResultElo2}}</p>
+        <p> Draw: {{Delta3}}, {{ResultElo3}}</p>
+   {% endif %}                     
+                
     </body>
     </html>
    

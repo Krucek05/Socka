@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PGN uploading</title>
+    <script src="PGNV/lib/pgnv.js" type="text/javascript"></script>
+    
+</head>
+<body class="merida zeit">
+
+    <input type="file" onchange="previewFile()" accept=".pgn"/><br />
+
+<div id="board" style="width: 400px"></div>
+
+<script>
+  
+    function placeNextMoveElement() {
+      var newDiv = createNextMoveElement();
+      var insertBeforeElement = document.getElementById("ChessBoardButton");
+      var parentElement = insertBeforeElement.parentNode;
+  
+      parentElement.insertBefore(newDiv, insertBeforeElement);
+  
+      attachToClickEvents();
+  }
+  
+  function createNextMoveElement() {
+      var newDivTextElement = document.createElement('div');
+      newDivTextElement.innerHTML = "Next moves: ";
+  
+      var newDivNextMovesElement = document.createElement('div');
+      newDivNextMovesElement.setAttribute('id', 'NextMoves');
+  
+      var newParentDivElement = document.createElement('div'); 
+      //newParentDivElement.setAttribute('style', 'grid-row:4; place-self: left; display: flex');
+      newParentDivElement.setAttribute('style', 'margin-left: -100px;');
+      newParentDivElement.appendChild(newDivTextElement);
+      newParentDivElement.appendChild(newDivNextMovesElement);
+  
+      return newParentDivElement;
+  }
+  
+  function attachToClickEvents() {
+      //pripoj sa na udalost "click" tlacitka
+      var buttonSpan = $('.buttons');
+      buttonSpan.each(function () {
+          $(this).parent().unbind('click').click(function (event) {
+              afterMove();
+          });
+      });
+  
+      //pripoj sa na udalost "click" v notacii tahov
+      var movesSan = $('san');
+      movesSan.each(function () {
+          $(this).parent().unbind('click').click(function (event) {
+              afterMove();
+          });
+      });
+  }
+  
+  /*
+   * Moves investigation and navigation
+   */
+  
+  function afterMove() {
+      displayNextMoves('NextMoves');
+      scrollToCurrentMoveNotation();
+  }
+  
+  function getCurrentMove() {
+      var MOVES = PgnViewer.base.getPgn().getMoves();
+      var currentFen = PgnViewer.base.chess.fen(); // see FEN on https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
+      var currentMove = MOVES.find(x => x.fen == currentFen);
+      return currentMove;
+  
+  }
+  
+  function getVariations() {
+      var currentMove = getCurrentMove();
+      var MOVES = PgnViewer.base.getPgn().getMoves();
+      var nextMove = MOVES[currentMove.next];
+      var nextMoves = [];
+      nextMoves.push(nextMove.notation.notation);
+      nextMove.variations.forEach(variation =>
+          nextMoves.push(variation.notation.notation)
+      );
+      return nextMoves;
+  }
+  
+  function displayNextMoves(divId) {
+      var variations = getVariations();
+  
+      var divNode = document.getElementById(divId);
+      divNode.innerHTML = ""
+      variations.forEach(x => divNode.innerHTML += "<div><a href=\"javascript:doMove('" + x + "');\"> " + x + " </a></div>")
+      divNode.innerHTML += ""
+  }
+  
+  function doMove(move) {
+      PgnViewer.base.manualMove(move);
+      afterMove();
+  }
+  
+  function scrollToCurrentMoveNotation() {
+      var currentMove = getCurrentMove();
+      var moveNotation = document.getElementById('ChessBoardMoves' + currentMove.index);
+      if (moveNotation != null) {
+          moveNotation.scrollIntoView()
+      }
+  }</script>
+  
+
+<script>
+    var board;
+function previewFile() {
+    const [file] = document.querySelector('input[type=file]').files;
+    const reader = new FileReader();
+  
+    reader.addEventListener("load", () => {
+      var pgnString = reader.result;
+      pgnString = pgnString.replace('\n', " ");
+        // console.log('pgnString '+ pgnString);
+    board = PGNV.pgnView('board', { pgn: pgnString,  headers: false})
+    }, false);
+  
+    if (file) {
+        reader.readAsText(file);
+        
+    }
+  }
+  </script>
+
+  
