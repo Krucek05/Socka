@@ -25,6 +25,7 @@ function placeNextMoveElement() {
     attachToClickEvents();
 }
 
+//Vytvori novy div HTML prvok, pre zobrazovanie dalsich tahov
 function createNextMoveElement() {
     var newDivTextElement = document.createElement('div');
     newDivTextElement.innerHTML = "Next moves: ";
@@ -33,7 +34,6 @@ function createNextMoveElement() {
     newDivNextMovesElement.setAttribute('id', 'NextMoves');
 
     var newParentDivElement = document.createElement('div'); 
-    //newParentDivElement.setAttribute('style', 'grid-row:4; place-self: left; display: flex');
     newParentDivElement.setAttribute('style', 'margin-left: 420px ' , 'width:100px');
     newParentDivElement.appendChild(newDivTextElement);
     newParentDivElement.appendChild(newDivNextMovesElement);
@@ -41,6 +41,7 @@ function createNextMoveElement() {
     return newParentDivElement;
 }
 
+//
 function attachToClickEvents() {
     //pripoj sa na udalost "click" tlacitka
     var buttonSpan = $('.buttons');
@@ -60,39 +61,43 @@ function attachToClickEvents() {
 }
 
 /*
- * Moves investigation and navigation
+ * Vysetrovanie tahov a navigacia
  */
 
+//Vukona sa po uskutocneni tahu: Zaborazi dalise tahy a scroll notacie
 function afterMove() {
     displayNextMoves('NextMoves');
     scrollToCurrentMoveNotation();
 }
 
+//Vrati Move - objekt z pola vsetkych tahov MOVES
 function getCurrentMove() {
-    var MOVES = PgnViewer.base.getPgn().getMoves();
     var currentFen = PgnViewer.base.chess.fen(); // see FEN on https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
+    var MOVES = PgnViewer.base.getPgn().getMoves();
     var currentMove = MOVES.find(x => x.fen == currentFen);
     return currentMove;
 
 }
 
+//Vrati pole notacii vsetkych dalsich tahov
 function getVariations() {
     var currentMove = getCurrentMove();
     var MOVES = PgnViewer.base.getPgn().getMoves();
-    var nextMove = MOVES[currentMove.next];
+    var nextMoveMainLine = MOVES[currentMove.next];
     var nextMoves = [];
-    if (nextMove == null)
+    if (nextMoveMainLine == null)
     {
         return nextMoves;
     }
 
-    nextMoves.push(nextMove.notation.notation);
-    nextMove.variations.forEach(variation =>
+    nextMoves.push(nextMoveMainLine.notation.notation);
+    nextMoveMainLine.variations.forEach(variation =>
         nextMoves.push(variation.notation.notation)
     );
     return nextMoves;
 }
 
+//Analyza aktualneho tahu, zistenie dalsich tahov a ich zobrazenie
 function displayNextMoves(divId) {
     var variations = getVariations();
 
@@ -102,14 +107,16 @@ function displayNextMoves(divId) {
     divNode.innerHTML += ""
 }
 
+//Vykobaj dalsi tah
 function doMove(move) {
     PgnViewer.base.manualMove(move);
     afterMove();
 }
 
+//Scroll v notacii na dany tah
 function scrollToCurrentMoveNotation() {
     var currentMove = getCurrentMove();
-    var moveNotation = document.getElementById('ChessBoardMoves' + currentMove.index);
+    var moveNotation = document.getElementById('boardMoves' + currentMove.index);
     if (moveNotation != null) {
         moveNotation.scrollIntoView()
     }
