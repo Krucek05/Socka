@@ -21,3 +21,14 @@ The goal was to combine two essential chess tools — a PGN viewer and an Elo ca
 - PGN file upload and game replay  
 - Elo rating calculation  
 - Simple and intuitive user interface
+
+
+## Desgin of application
+  <img width="1227" height="616" alt="image" src="https://github.com/user-attachments/assets/17ebbf80-8926-461a-bf05-b6f06798aa09" />
+  <img width="1139" height="548" alt="image" src="https://github.com/user-attachments/assets/935051fb-e104-4353-81b3-61143502ac26" />
+  <img width="1316" height="661" alt="image" src="https://github.com/user-attachments/assets/0be350f8-1338-428d-8de2-6464bc2685c0" />
+  <img width="1345" height="675" alt="image" src="https://github.com/user-attachments/assets/51440c41-5ddf-4eca-9470-661431f203af" />
+
+
+
+
